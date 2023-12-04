@@ -1,5 +1,5 @@
 [package]
-name = "mapfile_tester"
+name = "genealogy"
 version = "0.1.0"
 edition = "2021"
 
@@ -14,5 +14,5 @@ name = "map_extract"
 path = "src/lib.rs"
 
 [[bin]]
-name = "mapfile_tester"
+name = "genealogy"
 path = "src/main.rs"
