@@ -1,25 +1,13 @@
-use goblin::{error, Object};
-use map_extract::{extract_gnu_mapfile, map_sections_to_elf};
-use regex::RegexBuilder;
+use genealogy::Genealogy;
 
 fn main() {
-    let binary = std::fs::read("tests/a.out").unwrap();
-    let object = Object::parse(&binary).expect("Open test1");
-    if let Object::Elf(elf) = object {
-        let shdrs = &elf.section_headers;
-        let strtab = &elf.shdr_strtab;
+    let binary_path = "tests/cargo/genealogy";
+    let map_path = "tests/cargo/out.map";
 
-        for shdr in shdrs {
-            let section_name = strtab.get_at(shdr.sh_name).unwrap();
-            println!(
-                "Section {} @ {:x} (virt: {:x}), sz: {}",
-                section_name, shdr.sh_offset, shdr.sh_addr, shdr.sh_size
-            );
-        }
+    let binary = std::fs::read(binary_path).unwrap();
+    let mapfile = std::fs::read_to_string(map_path).unwrap();
 
-        let map = std::fs::read_to_string("tests/out.map").unwrap();
-        let mut map_info = extract_gnu_mapfile(&map);
-        map_sections_to_elf(&mut map_info, &elf);
-        println!("{:?}", map_info);
-    }
+    let gen = Genealogy::new(&mapfile, &binary).unwrap();
+    println!("Files were parsed");
+    println!("{:?}", gen.query_point(0x1df793).collect::<Vec<_>>());
 }

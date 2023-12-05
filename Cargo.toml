@@ -7,10 +7,11 @@ edition = "2021"
 
 [dependencies]
 goblin = "0.7.1"
+intervaltree = "0.2.7"
 regex = "1.10.2"
 
 [lib]
-name = "map_extract"
+name = "genealogy"
 path = "src/lib.rs"
 
 [[bin]]

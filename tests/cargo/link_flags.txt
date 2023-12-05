@@ -1,0 +1,4 @@
+dans .cargo/config.toml : 
+
+[build]
+rustflags= ["-Clink-args=-Wl,-Map=out.map"]
